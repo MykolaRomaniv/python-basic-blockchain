@@ -45,6 +45,8 @@ This project implements a complete blockchain system with cryptocurrency functio
 ├── transaction.py    # Transaction data structure
 ├── wallet.py         # Wallet and cryptographic functions
 ├── node.py           # Flask web server and API endpoints
+├── pyproject.toml    # Project metadata and dependencies
+├── uv.lock           # Dependency lock file (auto-generated)
 ├── ui/               # Web interface files
 │   ├── node.html
 │   └── network.html
@@ -56,41 +58,99 @@ This project implements a complete blockchain system with cryptocurrency functio
 
 ## Requirements
 
-- Python 3.x
-- Flask
-- Flask-CORS
-- pycryptodome
+- Python 3.8+
+- [uv](https://github.com/astral-sh/uv) - Fast Python package installer and resolver
 
 ## Installation
 
-1. Install required dependencies:
+This project uses [uv](https://github.com/astral-sh/uv) for dependency management and virtual environment handling.
+
+### Installing uv
+
+If you haven't installed uv yet, you can install it using:
 
 ```bash
-pip install flask flask-cors pycryptodome
+# macOS and Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Windows (PowerShell)
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# Or via pip
+pip install uv
 ```
+
+### Setting up the Project
+
+1. Clone or navigate to the project directory:
+```bash
+cd next-steps-01-finished
+```
+
+2. Install dependencies and create a virtual environment:
+```bash
+uv sync
+```
+
+This will:
+- Create a virtual environment in `.venv/`
+- Install all project dependencies from `pyproject.toml`
+- Install development dependencies (mypy, type stubs, etc.)
+
+3. Activate the virtual environment (optional - uv commands work without activation):
+```bash
+# macOS/Linux
+source .venv/bin/activate
+
+# Windows
+.venv\Scripts\activate
+```
+
+### Installing Development Dependencies
+
+To install dependencies including development tools:
+
+```bash
+uv sync --all-groups
+```
+
+### Common uv Commands
+
+- **Install dependencies**: `uv sync`
+- **Add a new dependency**: `uv add package-name`
+- **Add a development dependency**: `uv add --dev package-name`
+- **Remove a dependency**: `uv remove package-name`
+- **Run a command in the virtual environment**: `uv run python script.py`
+- **Show installed packages**: `uv pip list`
+- **Update dependencies**: `uv lock --upgrade`
 
 ## Usage
 
 ### Starting a Node
 
-Run a blockchain node on a specific port:
+Run a blockchain node using uv:
 
 ```bash
-python node.py -p 5000
+# Using uv run (recommended - automatically uses virtual environment)
+uv run python node.py -p 8000
+
+# Or activate the virtual environment first
+source .venv/bin/activate  # macOS/Linux
+python node.py -p 8000
 ```
 
-Or use the default port (5000):
+Or use the default port (8000):
 
 ```bash
-python node.py
+uv run python node.py
 ```
 
 ### Accessing the Web Interface
 
 Once the node is running, open your browser and navigate to:
 
-- **Node Interface**: `http://localhost:5000/`
-- **Network Interface**: `http://localhost:5000/network`
+- **Node Interface**: `http://localhost:8000/` (or your specified port)
+- **Network Interface**: `http://localhost:8000/network`
 
 ### API Endpoints
 
